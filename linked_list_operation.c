@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 struct Node {
     int data;
@@ -8,6 +8,9 @@ struct Node {
 
 struct Node* createNode(int data) {
     struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        exit(1);
+    }
     newNode->data = data;
     newNode->next = NULL;
     return newNode;
@@ -36,6 +39,7 @@ void display(struct Node *head) {
     }
     printf("NULL\n");
 }
+
 void reverse(struct Node **head) {
     struct Node *prev = NULL, *curr = *head, *next = NULL;
 
@@ -75,35 +79,68 @@ void concatenate(struct Node **head1, struct Node *head2) {
 
     temp->next = head2;
 }
-
-    int main() {
+int main() {
     struct Node *list1 = NULL;
     struct Node *list2 = NULL;
+    int choice, value;
 
-    insertEnd(&list1, 30);
-    insertEnd(&list1, 10);
-    insertEnd(&list1, 20);
+    while (1) {
+        printf("\n---- MENU ----\n");
+        printf("1. Insert into List1\n");
+        printf("2. Insert into List2\n");
+        printf("3. Display List1\n");
+        printf("4. Display List2\n");
+        printf("5. Sort List1\n");
+        printf("6. Reverse List1\n");
+        printf("7. Concatenate List2 into List1\n");
+        printf("8. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    printf("List 1: ");
-    display(list1);
+        switch (choice) {
 
-    sortList(list1);
-    printf("Sorted List 1: ");
-    display(list1);
+            case 1:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertEnd(&list1, value);
+                break;
 
-    reverse(&list1);
-    printf("Reversed List 1: ");
-    display(list1);
+            case 2:
+                printf("Enter value: ");
+                scanf("%d", &value);
+                insertEnd(&list2, value);
+                break;
 
-    insertEnd(&list2, 5);
-    insertEnd(&list2, 15);
+            case 3:
+                display(list1);
+                break;
 
-    printf("List 2: ");
-    display(list2);
+            case 4:
+                display(list2);
+                break;
 
-    concatenate(&list1, list2);
-    printf("Concatenated List: ");
-    display(list1);
+            case 5:
+                sortList(list1);
+                printf("List1 sorted.\n");
+                break;
+
+            case 6:
+                reverse(&list1);
+                printf("List1 reversed.\n");
+                break;
+
+            case 7:
+                concatenate(&list1, list2);
+                printf("Lists concatenated.\n");
+                break;
+
+            case 8:
+                return 0;
+
+            default:
+                printf("Invalid choice.\n");
+        }
+    }
 
     return 0;
 }
